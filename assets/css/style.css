@@ -1,0 +1,19 @@
+body{
+	background: black;
+}
+#mainContent{
+	width: 625px;
+	margin: auto;
+}
+.dottedBorder{
+	border-style: dashed;
+	border-color: white;
+	border-width: 2px;
+	float: left;
+	width: 225px;
+	height: 350px;
+}
+h1, h2, p{
+	color: white;
+	text-align: center;
+}

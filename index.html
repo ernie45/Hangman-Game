@@ -1,1 +1,30 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HangMan Game</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+</head>
+<body>
+	<script type="text/javascript" src="assets/javascript/game.js"></script>
+	<h1 id="PrimaryTitle">HANGMAN</h1>
+	<h2 id="SecondaryTitle">ErnieStyle</h2>
+	<div id="mainContent">
+		<div class="dottedBorder" id="LeftDiv">
+			<img id="underwear" style="width: 100px; height: 100px;">
+		</div>
+		<div class="dottedBorder" id="RightDiv">
+			<p>PRESS ANY KEY TO GET STARTED!</p>
+			<p id="wins">WINS: 0</p>
+			<p>CURRENT WORD:</p>
+			<p onload="rightAway();" id="correctGuess"></p>
+			<p id="wordToGuess"></p>
+			<p>NUMBER OF GUESSES REMAINING:</p>
+			<p id="remainingGuesses">9</p>
+			<p>LETTERS ALREADY GUESSED</p>
+			<p id="wrongGuess"></p>
+		</div>
+	</div>
+	
+</body>
+</html>
