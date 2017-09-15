@@ -1,10 +1,13 @@
 //[VARIABLE DECLARATIONS]/////////////////////////////////////////////////////////////////////////////////////////////////
 var gameNumber = 0;
 var words = ["loom", "hanes", "calvin", "lauren"];
+//[VARIABLE DECLARATIONS]/////////////////////////////////////////////////////////////////////////////////////////////////
+var gameNumber = 0;
+var words = ["loom", "hanes", "calvin", "lauren"];
 var correctLetter = [];
 var wrongLetter = [];
 var wins = 0;
-var remaining = 9;
+var remaining = 12;
 var wrongLetter = [];
 var wear = words[gameNumber]; 
 var y = ["https://i5.walmartimages.com/asr/db7515cb-8b7f-48a1-81ef-af3a104f38f0_1.b6d35584ffd46360fb097df06100bce3.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF", 
@@ -29,7 +32,7 @@ document.onkeyup = function(event){
 
 				//if letter is not in the word to guess, append letter to wrongLetter array
 				//and lower the guesses remaining
-				if (!words.includes(letterChosen)){
+				if (!wear.includes(letterChosen)){
 					if (!wrongLetter.includes(letterChosen)){
 						wrongLetter.push(letterChosen);
 						remaining--;
