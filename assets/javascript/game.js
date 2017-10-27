@@ -3,6 +3,9 @@ var words = ["loom", "hanes", "calvin", "lauren"];
 //[VARIABLE DECLARATIONS]/////////////////////////////////////////////////////////////////////////////////////////////////
 var gameNumber = 0;
 var words = ["loom", "hanes", "calvin", "lauren"];
+//[VARIABLE DECLARATIONS]/////////////////////////////////////////////////////////////////////////////////////////////////
+var gameNumber = 0;
+var words = ["loom", "hanes", "calvin", "lauren"];
 var correctLetter = [];
 var wrongLetter = [];
 var wins = 0;
