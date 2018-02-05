@@ -1,103 +1,161 @@
 /** Create the database of words */
-var words = ["loom", "hanes", "calvin", "lauren"];
-
-/** Variable declarations */
-
+const words = ["loom", "hanes", "calvin", "lauren"];
 /** Increments each time a game is won */
-var gameNumber = 0;
-
-/** Array that will hold the letters that are correctly guessed */
-var correctLetter = [];
-/** Array that will hold the letters that are incorrectly guessed */
-var wrongLetter = [];
-/** Number of times a user has guessed an entire word */
-var wins = 0;
-/** Turns remaining */
-var remaining = 12;
-
+let gameIndex = 0;
 /** Current word to guess */
-var currentWord = words[gameNumber];
-/** Pictures are ordered along with each word to display if user guesses right */ 
-var pictures = ["https://i5.walmartimages.com/asr/db7515cb-8b7f-48a1-81ef-af3a104f38f0_1.b6d35584ffd46360fb097df06100bce3.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF", 
-	"http://c.shld.net/rpx/i/s/i/spin/image/spin_prod_1041281812??hei=64&wid=64&qlt=50",
-	"https://asset1.surfcdn.com/calvin-klein-underwear-calvin-klein-modern-cotton-bikini-underwear-grey.jpg?w=1200&h=1200&r=4&q=80&o=$BCckMsR9uKbKzchqAkW5Vii@dgj&V=gAqK",
-	"http://slimages.macys.com/is/image/MCY/products/9/optimized/1831269_fpx.tif?bgc=255,255,255&wid=198&qlt=90&layer=comp&op_sharpen=0&resMode=bicub&op_usm=0.7,1.0,0.5,0&fmt=jpeg"];
+let currentWord = words[gameIndex];
+/** Number of times a user has guessed an entire word, initialized at zero */
+let wins = 0;
+/** Turns turnsRemaining */
+let turnsRemaining = 12;
+/** Is the current game won? */
+let isCurrentGameComplete = false;
+/** This array will create an array out of the current word to guess */
+let currentWordArray = [];
+/** Array that will hold the letters that are incorrectly guessed */
+let wrongLetter = [];
+/** Reserve a space each letter from the current word into the current word array */
+createWordSpace();
 
 
-/** Initial onload of the page */
-/** Display empty underscores one for each letter to guess */
-for (var i = 0; i < wear.length; i++){
-	correctLetter[i] = ("_" + " ");
+
+//MAIN FUNCTION///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/** Making sure not to go over the amount of words available */
+if (gameIndex < words.length - 1){
+
+	/** Upon clicking a letter */
+	document.onkeyup = function(event){
+
+		/** Display the lines for each letter in the current word to guess */
+		document.querySelector("#correctGuess").innerHTML = currentWordArray.join(" ");
+		document.querySelector("#correctGuess").style.visibility="hidden";
+		/** Retreive the value of the key that was pressed */
+		/** Will retreive once the key is up again */
+		var letterChosen = event.key;
+		/** Parse the letter chosen to see if it's inside the word to guess */
+		parseLetter(letterChosen);
+		/** If the user guesses a correct letter */
+		if (isInWordToGuess){
+			/** Update the status of the correct letters chosen */
+			updateCurrentWordArray(letterChosen);
+		}
+		/** If the user guesses incorrectly */
+		else {
+			/** Update the status of the wrong letters */
+			updateWrongLetterArray(letterChosen);
+			/** Decrement the turns remaining */
+			turnsRemaining--;
+		}
+		/** Refresh the view to show the current status of the word to guess */
+		displayCurrentWord();
+		/** Show current game status */
+		updateGameStatus();
+		/** Check if the current game has been won or not */
+		checkGameCompletion();
+		/** If the current game IS complete */
+		if (isCurrentGameComplete){
+			/** Increment the gameNumber */
+			gameIndex++;
+			/** Create a new game with the next word */
+			setNewGame();
+			/** Make space for each letter in the new word */
+			createWordSpace();
+			/** Reset the complete boolean to false */
+			isCurrentGameComplete = false;
+		}
+	}	
 }
 
-/** Code for main functioning */
-
-/** Upon clicking a letter */
-document.onkeyup = function(event){
-				var letterChosen = event.key;
-				/** Input letter guessed, if the letter is in the word to guess, append letter to correctLetter array */
-				parseLetter(letterChosen, wear);
-
-				/** If letter is not in the word to guess, append letter to wrongLetter array */
-				/** And lower the guesses remaining */
-				if (!wear.includes(letterChosen)){
-					if (!wrongLetter.includes(letterChosen)){
-						wrongLetter.push(letterChosen);
-						remaining--;
-					}
-				}
-				/** Check if my guessed function is full */
-				var x = checkFull(correctLetter, wear);
-				
-				if (x){
-					wins++;
-
-					document.querySelector("#underwear").src=y[gameNumber];
-					reset();
-				}
-				/** Show process of the game until it ends */
-				displayValues();
-
-}
 
 
 
-/** Functions to call */
+
+// FUNCTIONS TO CALL///////////////////////////////////////////////////////////////////////////////////////////////////
 
 /** If the letter is in the word to guess, append to correctLetter */
-function parseLetter(letterChosen, wear){
-				for (var i = 0; i < wear.length; i++){
-						if (letterChosen === wear.charAt(i)){
-							correctLetter[i] = letterChosen;
-						}
-				}
-}
-function checkFull(correctLetter, wear){
-				for (var i = 0; i < wear.length; i++){
-					if (correctLetter[i] !== wear.charAt(i)){
-						return false;
-					}
-				}
-				return true;
-}
-function reset(){
-	correctLetter = [];
-	for (var i = 0; i < wear.length; i++){
-		correctLetter[i] = ("_" + " ");
+function parseLetter(letterChosen){
+	/** Reset the boolean to false */
+	isInWordToGuess = false;
+	/** Traverse the current word's length */
+	for (let i = 0; i < currentWord.length; i++){
+		/** Check if the letter that was chosen is a letter in the current word */
+		if (letterChosen === currentWord.charAt(i)){
+			/** Change the boolean to true */
+			isInWordToGuess = true;
+		}
 	}
-	gameNumber++;
-	remaining = 12;
-	wear = words[gameNumber];
+};
+/** Update the array that contains the correct letters */
+function updateCurrentWordArray(letterChosen){
+	for (let i = 0; i < currentWord.length; i++){
+		/** Check if the letter that was chosen is a letter in the current word */
+		if (letterChosen === currentWord.charAt(i)){
+			/** Change the boolean to true */
+			currentWordArray[i] = letterChosen;
+		}
+	}
+};
+/** Update array that holds the letters that were wrongfully chosen */
+function updateWrongLetterArray(letterChosen){
+	/** Push the wrong letter into the wrongletter array */
+	wrongLetter.push(letterChosen);
+};
+/** Display the status of the current word to guess */
+function displayCurrentWord(){
+	/** Change the html to the current word status */
+	document.querySelector("#correctorGuess").innerHTML = currentWordArray.join(" ");
+};
+/** Display status of the entire game */
+function updateGameStatus(){
+	/** If player still has lives */
+	if (turnsRemaining >= 0){
+		/** Show how many lives are remaining */
+		document.querySelector("#remainingGuesses").innerHTML=turnsRemaining;
+		/** Show wrong letters guessed */
+		document.querySelector("#wrongGuess").innerHTML=wrongLetter;
+		/** Show how many wins the user has */
+		document.querySelector("#wins").innerHTML=("Wins: " + wins);
+	}
+};
+/** Check if the entire word was guessed correctly */
+function checkGameCompletion(){
+	/** This array will help see if the word was completely guessed correctly */
+	var temp = [];
+	/** Traverse the current word */
+	for (var i = 0; i < currentWord.length; i++){
+		/** If the currentWordArray has the same letter as the currentWord */
+		if (currentWord[i] === currentWordArray[i]){
+			/** Push the correct letter onto the temp array */
+			temp.push(currentWord[i]);
+		}
+	}
+	/** If the temp array and currentWord have the same length */
+	if (temp.length === currentWord.length){
+		/** Then the word was guessed correctly */
+		isCurrentGameComplete = true;
+	}
+};
+/** Create a new game for the next level */
+function setNewGame(){
+	/** Reset the currentWordArray */
+	currentWordArray = [];
+	/** Reset the guesses remaining */
+	turnsRemaining = 12;
+	/** Reset the currentWord */
+	currentWord = words[gameIndex];
 	
+	/** Empty the wrong letter array */
 	wrongLetter = [];
-	wrongLetter = [];
-	y[gameNumber];
-}
-function displayValues(){
-				if (remaining >= 0){
-					document.querySelector("#correctGuess").innerHTML=correctLetter.join(" ");
-					document.querySelector("#remainingGuesses").innerHTML=remaining;
-					document.querySelector("#wrongGuess").innerHTML=wrongLetter;
-					document.querySelector("#wins").innerHTML=("Wins: " + wins);
-				}
-}
+};
+/** Reserve a space for each letter in the word to guess */
+function createWordSpace(){
+	/** Making sure not to go over the game boundaries */
+	if (gameIndex < words.length){
+		/** Traverse the current word  */
+		for (let i = 0; i < currentWord.length; i++){
+			/** Create a space for each letter */
+			currentWordArray.push("_");
+		}
+	}
+};
