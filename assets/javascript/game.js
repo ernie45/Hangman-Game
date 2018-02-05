@@ -21,12 +21,14 @@ createWordSpace();
 
 //MAIN FUNCTION///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/** Making sure not to go over the amount of words available */
-if (gameIndex < words.length - 1){
 
+/** Perform the main function iff the user still has lives */
+if (turnsRemaining > 0){
+	/** Making sure not to go over the amount of words available */
+	if (gameIndex < words.length - 1){
 	/** Upon clicking a letter */
 	document.onkeyup = function(event){
-		if (turnsRemaining > 0){
+		
 			/** Display the lines for each letter in the current word to guess */
 			document.querySelector("#correctGuess").innerHTML = currentWordArray.join(" ");
 			document.querySelector("#correctGuess").style.visibility="hidden";
